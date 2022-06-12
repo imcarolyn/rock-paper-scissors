@@ -1,6 +1,4 @@
 
-game();
-
 //randomly returns either "rock", "paper", or "scissors"
 function computerPlay(){
   let randomResult = Math.random();
