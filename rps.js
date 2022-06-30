@@ -1,4 +1,9 @@
 
+let playerScore = 0;
+let compScore = 0;
+let roundCount = 0;
+let finalScore;
+
 //randomly returns either "rock", "paper", or "scissors"
 function computerPlay(){
   let randomResult = Math.random();
@@ -20,20 +25,24 @@ function playRound(playerSelection, computerSelection){
           return "Tie! You both chose rock";
           break;
         case "SCISSORS":
-            return "You win! Rock beats scissors!";
-            break;
+          playerScore++;
+          return "You win! Rock beats scissors!";
+          break;
         case "PAPER":
+          compScore++;
           return "You lose! Paper beats rock!";
           break;
       }
     case "PAPER":
       switch(computerSelection.toUpperCase()){
         case "ROCK":
+          playerScore++;
           return "You win! Paper beats rock";
           break;
         case "SCISSORS":
-            return "You lose! Scissors beat paper!";
-            break;
+          compScore++;
+          return "You lose! Scissors beat paper!";
+          break;
         case "PAPER":
           return "Tie! You both chose paper!";
           break;
@@ -41,41 +50,74 @@ function playRound(playerSelection, computerSelection){
     case "SCISSORS":
       switch(computerSelection.toUpperCase()){
         case "ROCK":
+          compScore++;
           return "You lose! Rock beats scissors";
           break;
         case "SCISSORS":
             return "Tie! You both chose scissors!";
             break;
         case "PAPER":
+          playerScore++;
           return "You win! Scissors beats paper!";
           break;
       }
   }
 }
 
-//plays 5 rounds, storing scores and declaring winner at end
-function game(){
-  let playerScore = 0;
-  let compScore = 0;
-  for(let i=0; i<5; i++){
-    let playerSelection = prompt("Rock, paper, or scissors?");
-    let computerSelection = computerPlay();
-    console.log(playRound(playerSelection, computerSelection));
-
-    if(playRound(playerSelection, computerSelection).match("win")){
-      playerScore++;
-    } else if (playRound(playerSelection, computerSelection).match("lose")){
-      compScore++;
-    }
-  }
-  
-  console.log(`Final score is Player: ${playerScore} Computer: ${compScore}`);
-  if(playerScore < compScore){
-    console.log("You lose! Computer wins!");
-  } else if (compScore > playerScore){
-    console.log("Computer wins! You lose!");
+function checkScore(){
+  finalScore = `Final score is Player: ${playerScore} Computer: ${compScore} `;
+  if(playerScore > compScore){
+    finalScore += "Congratulations! You win!";
+  } else if(compScore < playerScore) {
+    finalScore += "Sorry! Better luck next time!";
   } else {
-    console.log("Game was a tie!");
+    finalScore += "It was a tie!";
   }
+  playerScore = 0;
+  compScore = 0;
+  roundCount = 0;
 }
 
+const image = document.querySelector(".rps-image");
+const results = document.querySelector(".results");
+const score = document.querySelector(".score");
+const finalText = document.querySelector(".final-score");
+
+const rockButton = document.querySelector(".rock");
+rockButton.addEventListener('click', () => {
+  results.textContent = playRound("rock", computerPlay());
+  score.textContent = `${playerScore} vs ${compScore}`;
+  image.src="rock.png";
+  roundCount++;
+  finalText.textContent = `Round: ${roundCount}`;
+  if(roundCount >= 5) {
+    checkScore();
+    finalText.textContent = finalScore;
+    image.src="rock-paper-scissors.png"; }
+  });
+
+const paperButton = document.querySelector(".paper");
+paperButton.addEventListener('click', () => {
+  results.textContent = playRound("paper", computerPlay());
+  score.textContent = `${playerScore} vs ${compScore}`; 
+  image.src="paper.png";
+  roundCount++;
+  finalText.textContent = `Round: ${roundCount}`;
+  if(roundCount >= 5) {
+    checkScore();
+    finalText.textContent = finalScore;
+    image.src="rock-paper-scissors.png"; }
+  });
+  
+const scissorsButton = document.querySelector(".scissors");
+scissorsButton.addEventListener('click', () => {
+  results.textContent = playRound("scissors", computerPlay());
+  score.textContent = `${playerScore} vs ${compScore}`;
+  image.src="scissors.png";
+  roundCount++;
+  finalText.textContent = `Round: ${roundCount}`;
+  if(roundCount >= 5) {
+    checkScore();
+    finalText.textContent = finalScore;
+    image.src="rock-paper-scissors.png"; }
+  });

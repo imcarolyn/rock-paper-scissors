@@ -4,7 +4,7 @@
 
 body {
   background-color: gainsboro;
-  color: whitesmoke;
+  color: dodgerblue;
 }
 
 h1 {
@@ -33,9 +33,16 @@ button {
   font-size: 16px;
   font-weight: 600;
   background-color: dodgerblue;
+  color: whitesmoke;
   border-radius: 10%;
   padding: 10px 14px;
   border-style: none;
   outline-style: none;
   margin: 2em;
+}
+
+.results, .score, .final-score {
+  color: dodgerblue;
+  justify-content: center;
+  align-items: center;
 }
